@@ -7,6 +7,9 @@ let todoAlert = document.querySelector('[data-alert]');
 let todoContainer = document.querySelector('.todo-container');
 let todoReminder = document.getElementById('todo-reminder'); // ⏰ reminder input
 
+// ✅ Add reminder sound
+let reminderSound = new Audio("reminder.mp3");
+
 const STORAGE_KEY = 'todo.list';
 let todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
@@ -156,7 +159,7 @@ function createList(taskName, reminderTime = "") {
   return { id: Date.now().toString(), name: taskName, reminder: reminderTime };
 }
 
-// ✅ schedule reminder
+// ✅ schedule reminder with sound
 function scheduleReminder(todo) {
   const reminderDate = new Date(todo.reminder);
   const now = new Date();
@@ -165,6 +168,7 @@ function scheduleReminder(todo) {
   if (timeDiff > 0) {
     setTimeout(() => {
       alert(`⏰ Reminder: ${todo.name}`);
+      reminderSound.play(); // 🔊 play sound
     }, timeDiff);
   }
 }
