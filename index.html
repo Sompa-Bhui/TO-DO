@@ -11,12 +11,13 @@
   <!-- ✅ Your custom stylesheet -->
   <link rel="stylesheet" href="root/css/style.css">
 
-  <title>TODO</title>
+  <title>TODO with Reminder</title>
 </head>
 <body>
   <header></header>
   
   <div class="todo-box">
+    <!-- ✅ Form with Task + Reminder Input -->
     <form>
       <input 
         type="text" 
@@ -24,6 +25,13 @@
         id="todo-txt" 
         placeholder="type every task right here"
       >
+
+      <!-- ✅ Date-time picker for reminder -->
+      <input 
+        type="datetime-local" 
+        id="todo-reminder"
+      >
+
       <button type="submit" class="todo-btn" id="todo-btn">
         <i class="fas fa-plus-circle"></i>
       </button>
