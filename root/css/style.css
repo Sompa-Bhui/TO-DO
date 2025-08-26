@@ -2,7 +2,7 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      box-sizing:border-box;
+      box-sizing: border-box;
       text-decoration: none;
 }
 
@@ -35,43 +35,54 @@ div.todo-box {
 }
 
 form {
-      float: left;
-      height: 2rem;
-      width: 20rem;
+      display: flex;          /* ✅ line main input aur reminder ko rakhega */
+      align-items: center;
+      gap: 0.5rem;
       margin: 1rem .5rem .2rem .3rem;
       position: relative;
 }
 
-form input {
-      width: inherit;
-      height: inherit;
-      display: block;
+form input[type="text"] {
+      flex: 1;
+      height: 2rem;
       border-radius: 22px;
       font-size: 1rem;
       text-indent: 1rem;
       border: 2px solid var(--main-color);
 }
 
-form input:focus {
+form input[type="text"]:focus {
       outline: none;
 }
 
-form input::placeholder {
+form input[type="text"]::placeholder {
       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-form input ~ button {
+/* ✅ Reminder datetime input styling */
+form input[type="datetime-local"] {
+      height: 2rem;
+      padding: 0 0.5rem;
+      border-radius: 10px;
+      border: 2px solid var(--main-color);
+      font-size: 0.8rem;
+      color: #333;
+}
+
+form input[type="datetime-local"]:focus {
+      outline: none;
+      border-color: var(--gradient-color-2);
+}
+
+form button {
       appearance: none;
       border: none;
-      position: absolute;
       cursor: pointer;
-      top: 0;
-      right: 0;
       background-color: transparent;
       user-select: none;
 }
 
-form input ~ button i {
+form button i {
       font-size: 2rem;
       transition: transform 500ms ease;
       color: var(--main-color);
@@ -79,13 +90,13 @@ form input ~ button i {
       transform-origin: 50% 50%;
 }
 
+form button i:hover {
+      transform: rotate(360deg);
+}
+
 i.fa-check,
 i.fa-trash {
       pointer-events: none;
-}
-
-form input ~ button i:hover {
-      transform: rotate(360deg);
 }
 
 section {
@@ -138,7 +149,6 @@ section div p {
       color: hsl(165, 100%, 51%);
       line-height: 2rem;
       text-align: center;
-      /* transition: all 500ms ease; */
 }
 
 section div p.completed {
