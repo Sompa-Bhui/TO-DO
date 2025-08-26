@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-      <meta charset="UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="root/Font-Awesome/css/all.min.css">
-      <link rel="stylesheet" href="root/css/style.css">
-      <title>TODO</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✅ Font Awesome via CDN (no need for local webfonts) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- ✅ Your custom stylesheet -->
+  <link rel="stylesheet" href="root/css/style.css">
+
+  <title>TODO</title>
 </head>
 <body>
-      <header></header>
-            <div class="todo-box">
-                  <form>
-                        <input type="text" class="todo-txt" id="todo-txt" placeholder="type every task right here">
-                        <button type="submit" class="todo-btn" id="todo-btn">
-                              <i class="fas fa-plus-circle"></i>
-                        </button>
-                  </form>
-                  <input type="checkbox" name="check" id="check">
-                  <span data-alert>there is no task until now !</span>
-                  <section class="todo-container"></section>
-            </div>
-      <script src="root/js/app.js"></script>
+  <header></header>
+  
+  <div class="todo-box">
+    <form>
+      <input 
+        type="text" 
+        class="todo-txt" 
+        id="todo-txt" 
+        placeholder="type every task right here"
+      >
+      <button type="submit" class="todo-btn" id="todo-btn">
+        <i class="fas fa-plus-circle"></i>
+      </button>
+    </form>
+
+    <input type="checkbox" name="check" id="check">
+    <span data-alert>there is no task until now !</span>
+    
+    <section class="todo-container"></section>
+  </div>
+
+  <!-- ✅ Your JS file -->
+  <script src="root/js/app.js"></script>
 </body>
 </html>
