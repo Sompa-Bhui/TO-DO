@@ -5,6 +5,7 @@ let todoCheck = document.querySelector('#check');
 let todoBox = document.querySelector('.todo-box');
 let todoAlert = document.querySelector('[data-alert]');
 let todoContainer = document.querySelector('.todo-container');
+let todoReminder = document.getElementById('todo-reminder'); // ⏰ reminder input
 
 const STORAGE_KEY = 'todo.list';
 let todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -40,17 +41,32 @@ todoBtn.onclick = function (e) {
   todoDelete.className = "todo-delete";
   todoDelete.innerHTML = `<i class="fas fa-trash"></i>`;
 
+  // ⏰ reminder show
+  let reminderTag = null;
+  if (todoReminder.value) {
+    reminderTag = document.createElement('small');
+    reminderTag.className = "reminder-tag";
+    reminderTag.innerText = "⏰ " + todoReminder.value.replace("T", " ");
+    todoTaskContainer.appendChild(reminderTag);
+  }
+
   todoTaskContainer.appendChild(todoCompleted);
   todoTaskContainer.appendChild(todoTask);
   todoTaskContainer.appendChild(todoDelete);
 
   todoContainer.appendChild(todoTaskContainer);
 
-  let todo = createList(todoTxt.value);
+  let todo = createList(todoTxt.value, todoReminder.value);
   todos.push(todo);
   saveAndShow();
 
+  // ✅ Reminder trigger
+  if (todoReminder.value) {
+    scheduleReminder(todo);
+  }
+
   todoTxt.value = "";
+  todoReminder.value = "";
   todoTxt.focus();
 };
 
@@ -60,14 +76,11 @@ document.addEventListener('click', e => {
   // delete
   if (item.closest('.todo-delete')) {
     let parent = item.closest('.todo-task-container');
-    parent.classList.add('drop');
     removeStorage(parent.querySelector('.todo-task').dataset.todoId);
-    parent.addEventListener("transitionend", function() {
-      parent.remove();
-      if (todoContainer.childElementCount == 0) {
-        showAlert();
-      }
-    });
+    parent.remove();
+    if (todoContainer.childElementCount == 0) {
+      showAlert();
+    }
   }
 
   // complete
@@ -109,17 +122,24 @@ function saveAndShow() {
 
 function getStorage() {
   todos.forEach(item => {
+    let reminderHtml = item.reminder ? `<small class="reminder-tag">⏰ ${item.reminder.replace("T", " ")}</small>` : "";
     todoContainer.innerHTML += `
       <div class="todo-task-container">
         <button class="todo-completed">
           <i class="fas fa-check"></i>
         </button>
         <p class="todo-task" data-todo-id="${item.id}">${item.name}</p>
+        ${reminderHtml}
         <button class="todo-delete">
           <i class="fas fa-trash"></i>
         </button>
       </div>
     `;
+
+    // restore reminder
+    if (item.reminder) {
+      scheduleReminder(item);
+    }
   });
 
   if (todos.length > 0) {
@@ -132,8 +152,21 @@ function removeStorage(id) {
   saveAndShow();
 }
 
-function createList(taskName) {
-  return { id: Date.now().toString(), name: taskName };
+function createList(taskName, reminderTime = "") {
+  return { id: Date.now().toString(), name: taskName, reminder: reminderTime };
+}
+
+// ✅ schedule reminder
+function scheduleReminder(todo) {
+  const reminderDate = new Date(todo.reminder);
+  const now = new Date();
+  const timeDiff = reminderDate.getTime() - now.getTime();
+
+  if (timeDiff > 0) {
+    setTimeout(() => {
+      alert(`⏰ Reminder: ${todo.name}`);
+    }, timeDiff);
+  }
 }
 
 // remove alert if already tasks exist
