@@ -9,6 +9,15 @@ let todoReminder = document.getElementById('todo-reminder'); // ⏰ reminder inp
 
 // ✅ Add reminder sound
 let reminderSound = new Audio("reminder.mp3");
+reminderSound.load(); // preload
+
+// 👉 unlock audio once user interacts (required for Chrome autoplay policy)
+document.addEventListener("click", () => {
+  reminderSound.play().then(() => {
+    reminderSound.pause();
+    reminderSound.currentTime = 0;
+  }).catch(() => {});
+}, { once: true });
 
 const STORAGE_KEY = 'todo.list';
 let todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -44,19 +53,18 @@ todoBtn.onclick = function (e) {
   todoDelete.className = "todo-delete";
   todoDelete.innerHTML = `<i class="fas fa-trash"></i>`;
 
+  todoTaskContainer.appendChild(todoCompleted);
+  todoTaskContainer.appendChild(todoTask);
+
   // ⏰ reminder show
-  let reminderTag = null;
   if (todoReminder.value) {
-    reminderTag = document.createElement('small');
+    let reminderTag = document.createElement('small');
     reminderTag.className = "reminder-tag";
     reminderTag.innerText = "⏰ " + todoReminder.value.replace("T", " ");
     todoTaskContainer.appendChild(reminderTag);
   }
 
-  todoTaskContainer.appendChild(todoCompleted);
-  todoTaskContainer.appendChild(todoTask);
   todoTaskContainer.appendChild(todoDelete);
-
   todoContainer.appendChild(todoTaskContainer);
 
   let todo = createList(todoTxt.value, todoReminder.value);
@@ -168,6 +176,7 @@ function scheduleReminder(todo) {
   if (timeDiff > 0) {
     setTimeout(() => {
       alert(`⏰ Reminder: ${todo.name}`);
+      reminderSound.currentTime = 0; // reset
       reminderSound.play(); // 🔊 play sound
     }, timeDiff);
   }
