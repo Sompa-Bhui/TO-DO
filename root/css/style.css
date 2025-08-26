@@ -35,7 +35,7 @@ div.todo-box {
 }
 
 form {
-      display: flex;          /* ✅ line main input aur reminder ko rakhega */
+      display: flex;
       align-items: center;
       gap: 0.5rem;
       margin: 1rem .5rem .2rem .3rem;
@@ -104,14 +104,20 @@ section {
       margin: 1rem auto;
 }
 
+/* ✅ Flexbox for task row */
 section div {
       margin: 0.5rem 0;
       width: 100%;
-      height: 2rem;
+      min-height: 2rem;
       background: linear-gradient(-90deg, #452dfd, #c322ba);
       transition: all 300ms ease;
       border-radius: 7px;
       overflow: hidden;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.5rem;
 }
 
 section div.drop {
@@ -120,21 +126,13 @@ section div.drop {
 }
 
 section div > button {
-      width: 10%;
-      height:100%;
+      width: auto;
+      height: 100%;
       appearance: none;
-      border-radius: 0;
       border: none;
       cursor: pointer;
       background-color: transparent;
-}
-
-section div > button:first-of-type {
-      float: left;
-}
-
-section div > button:last-of-type {
-      float: right;
+      padding: 0 0.5rem;
 }
 
 section div > button i {
@@ -143,12 +141,11 @@ section div > button i {
 }
 
 section div p {
-      width: 80%;
-      float: left;
-      padding: 0 1rem;
+      flex: 1;
       color: hsl(165, 100%, 51%);
       line-height: 2rem;
-      text-align: center;
+      text-align: left;
+      margin: 0 0.5rem;
 }
 
 section div p.completed {
@@ -157,7 +154,6 @@ section div p.completed {
 }
 
 span {
-      clear: both;
       font-size: .7rem;
       margin: 0.3rem 0 1rem 1rem;
       display: block;
